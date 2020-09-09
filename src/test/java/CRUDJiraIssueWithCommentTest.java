@@ -1,5 +1,6 @@
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.json.simple.JSONObject;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
@@ -13,25 +14,28 @@ public class CRUDJiraIssueWithCommentTest {
   @Test
   public void crudNewIssue() {
     //POST - create new issue and status is 201
+
+    JSONObject issue = new JSONObject();
+    JSONObject fields = new JSONObject();
+    JSONObject reporter = new JSONObject();
+    JSONObject issueType = new JSONObject();
+    JSONObject project = new JSONObject();
+
+    issueType.put("id", "10105");
+    issueType.put("name", "test");
+    project.put("id", "10508");
+    reporter.put("name", "IrinaChub");
+    fields.put("issuetype", issueType);
+    fields.put("summary", "Test summary API ticket");
+    fields.put("reporter", reporter);
+    fields.put("project", project);
+    issue.put("fields", fields);
+
     Response postIssueResponse =
         given().
             auth().preemptive().basic("IrinaChub", "IrinaChub").
             contentType(ContentType.JSON).
-            body("{\n" +
-                "   \"fields\":{\n" +
-                "      \"summary\":\"Test summary API ticket\",\n" +
-                "      \"issuetype\":{\n" +
-                "         \"id\":\"10105\",\n" +
-                "         \"name\":\"test\"\n" +
-                "      },\n" +
-                "      \"project\":{\n" +
-                "         \"id\":\"10508\"\n" +
-                "      },\n" +
-                "   \"reporter\": {\n" +
-                "      \"name\": \"IrinaChub\"\n" +
-                "    }\n" +
-                "   }\n" +
-                "}").
+            body(issue.toJSONString()).
             when().
             post("https://jira.hillel.it/rest/api/2/issue").
             then().
@@ -56,13 +60,16 @@ public class CRUDJiraIssueWithCommentTest {
     assertEquals(getIssueResponse.path("fields.summary"), "Test summary API ticket");
     assertEquals(getIssueResponse.path("fields.creator.name"), "IrinaChub");
 
+    JSONObject bodyComment = new JSONObject();
+    bodyComment.put("body", "Test API added comment");
+
+
     //Add comment and status is 201
     Response postCommentInIssueResponse =
         given().
             auth().preemptive().basic("IrinaChub", "IrinaChub").
             contentType(ContentType.JSON).
-            body("{\n" +
-                "    \"body\":\"Test API added comment\"}").
+            body(bodyComment.toJSONString()).
             when().
             post("https://jira.hillel.it/rest/api/2/issue/" + ticketId + "/comment").
             then().
