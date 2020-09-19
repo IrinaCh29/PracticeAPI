@@ -20,6 +20,6 @@ public class ResponseBuilder {
             then().
             statusCode(404).
             extract().response();
-    //getDeletedComment.prettyPrint();
+    getDeletedComment.prettyPrint();
   }
 }

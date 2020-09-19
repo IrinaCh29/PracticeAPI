@@ -26,10 +26,6 @@ public class JiraJSONObjects {
     return issue.toJSONString();
   }
 
-//  JSONObject bodyComment = new JSONObject();
-//    bodyComment.put("body", "Test API added comment");
-
-
   public static String bodyCommentJSON(){
     JSONObject bodyCommentJSON = new JSONObject();
     bodyCommentJSON.put("body", "Test API added comment");
