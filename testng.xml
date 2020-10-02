@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="All Test Suite">
-    <test verbose="2" preserve-order="true" name="D:/ithillel/PracticeAPI">
-        <classes/>
+<suite name="Jira API Test Suite" parallel="false">
+    <test name="Jira Tests">
+    <classes>
+        <class name="CRUDJiraIssueTest"/>
+        <class name="CRUDJiraIssueWithCommentTest"/>
+    </classes>
     </test>
 </suite>

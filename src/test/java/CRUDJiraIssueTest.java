@@ -1,3 +1,4 @@
+import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import utils.Credentials;
@@ -6,6 +7,7 @@ import utils.JiraAPISteps;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+@Feature("CRUDJiraIssueTest")
 public class CRUDJiraIssueTest {
   private String ticketId;
 
